@@ -26,7 +26,7 @@ namespace Asa.MapApi.Controllers
             switch (Request.HttpMethod)
             {
                 case "GET":
-                    return Json(new { categories = this._ListCategories() }, JsonRequestBehavior.AllowGet);
+                    return Json(new { categories = _ListCategories() }, JsonRequestBehavior.AllowGet);
 
             }
 
@@ -44,11 +44,11 @@ namespace Asa.MapApi.Controllers
                 // entity <-- inbound
                 if ((bool)Validation[0])
                 {
-                    return Json(new { entity = entity, isvalid = true, errors = new string[] { "0" } }, JsonRequestBehavior.AllowGet);
+                    return Json(new { entity = entity, isValid = true, errors = new string[] { "0" } }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    return Json(new { entity = entity, isvalid = false, errors = new string[] { Validation[1].ToString() } }, JsonRequestBehavior.AllowGet);
+                    return Json(new { entity = entity, isValid = false, errors = new string[] { Validation[1].ToString() } }, JsonRequestBehavior.AllowGet);
                 }
 
             }
@@ -69,13 +69,18 @@ namespace Asa.MapApi.Controllers
 
                     return Json(new { pois = _ListPOIS() }, JsonRequestBehavior.AllowGet);
                 case "POST":
-                    //InsertPOI (entity)
+                    //Add funciona. Tuve que añadir una logica para corregir los nombres de las columnas on the fly(No se si se me permite cambiar el excel)
+                    _AddPOI(entity);
+                    Response.StatusCode = 200;
+                    //return Json(new { })
+                    
                     break;
                 case "PUT":
-                    //UpdatePOI (id, entity)
+                    _UpdatePOI(entity);
                     break;
                 case "DELETE":
-                    //DeletePOI (id)
+
+//                    _DeletePOI(entity);
                     break;
             }
 
@@ -155,6 +160,70 @@ namespace Asa.MapApi.Controllers
                     IDictionary<string, object> sarasa = (IDictionary<string, object>)x;
                     return sarasa["Value"];
                 }).ToList();
+
+        }
+        private bool _AddPOI(Dictionary<string, object> entity)
+        {
+            var driver = new XlsDriver();
+            var conn = driver.Connect(AppDomain.CurrentDomain.BaseDirectory + @"\bin\Data\ds.xls");
+            List<string> columnnames = new List<string>();
+            List<string> values = new List<string>();
+
+            try
+            {
+                var entity2 = entity.ToDictionary(k => k.Key, k => ((string[])k.Value)[0].ToString());
+                foreach (var item in entity2)
+                {
+                    if (item.Key == "XLon" || item.Key == "YLat")
+                        columnnames.Add(item.Key.Insert(1, " (").Insert(6, ")"));
+                    else
+                        columnnames.Add(item.Key);
+                    values.Add(item.Value.ToString());
+                }
+            }
+            catch
+            {
+                foreach (var item in entity)
+                {
+                    if (item.Key == "XLon" || item.Key == "YLat")
+                        columnnames.Add(item.Key.Insert(1, " (").Insert(6, ")"));
+                    else
+                        columnnames.Add(item.Key);
+                    values.Add(item.Value.ToString());
+                }
+            }
+            
+            
+            conn.Open();
+           driver.InsertData(conn, "POIs",columnnames, values);
+
+            conn.Close();
+            return true;
+
+        }
+
+        private bool _UpdatePOI(Dictionary<string,object> entity)
+        {
+            var driver = new XlsDriver();
+            var conn = driver.Connect(AppDomain.CurrentDomain.BaseDirectory + @"\bin\Data\ds.xls");
+            try
+            {
+
+           
+            
+                    conn.Open();
+                    driver.UpdateData(conn, "POIs", entity);
+                    conn.Close();
+                    return true;
+            }
+            
+            catch
+            {
+                return false;
+            }
+
+
+
 
         }
 

@@ -73,20 +73,25 @@
     <script>
         $(document).ready(function () {
             $('#Guardar').click(function () {
-                var json = {
-                    "Id": 'd728520445d2377fa66d5ef90fde7713',
-                    "Name": document.querySelector('#name').value[0],
-                    "Address": document.querySelector('#address').value.toString(),
-                    "Phone": document.querySelector('#phone').value.toString(),
-                    "Category": document.querySelector('#category').value.charAt(0).toString(),
-                    "XLon": document.querySelector('#coord').value.split(",")[0].toString(),
-                    "YLat": document.querySelector('#coord').value.split(",")[1].toString()
-                };
 
-                $.post("../api/ValidateForm", { entity: json })
-                        .done(function (data) {
-                            alert("Data Loaded: " + data);
+                var json = {};
+                json.Id = "d728520445d2377fa66d5ef90fde7713";
+                    json.Name = document.querySelector('#name').value[0];
+                    json.Address = document.querySelector('#address').value.toString();
+                    json.Phone = document.querySelector('#phone').value.toString();
+                    json.Category = document.querySelector('#category').value.charAt(0).toString();
+                    json.XLon = document.querySelector('#coord').value.split(",")[0].toString();
+                    json.YLat = document.querySelector('#coord').value.split(",")[1].toString();
+
+                $.post("../api/ValidateForm", { entity: json }, function (data) {
+                    if (data.isValid === true) {
+                        console.log("se ejecuta");
+                        alert("Insertando en la tabla");
+                        $.post("../api/POIs", { entity: json }).done(function (data) {
+                            alert("Los valores fueron insertados en la tabla correctamente");
                         });
+                    }
+                });
                 
                 console.log(json);
             });

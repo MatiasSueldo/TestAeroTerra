@@ -80,6 +80,38 @@ namespace Asa.DataStore
                 throw new XlsDriverException("Error on insert.", ex);
             }
         }
+        public void UpdateData(OleDbConnection connection, string table, IDictionary<string,object> entity)
+        {
+            OleDbCommand command = null;
+            try
+            {
+                var entity2 = entity.ToDictionary(k => k.Key, k => ((string[])k.Value)[0].ToString());
+                using (command = connection.CreateCommand())
+                {
+
+                    command.CommandText = string.Format("UPDATE [{0}$] SET  Name={2},Address={3},Phone={4},Category={5}, [X (LON)]= {6}, [Y (LAT)] ={7}   where Id='{1}'", table, entity2["Key"], entity2["Name"], entity2["Address"], entity2["Phone"], entity2["Category"], entity2["XLon"], entity2["YLat"]);
+
+                    command.ExecuteNonQuery();
+
+
+                }
+            }
+            catch
+            {
+                using (command = connection.CreateCommand())
+                {
+
+                    command.CommandText = string.Format("UPDATE [{0}$] SET  Name='{2}',Address='{3}',Phone='{4}',Category='{5}',[X (LON)] ='{6}',[Y (LAT)] = '{7}'   where Id='{1}'", table, entity["Id"], entity["Name"], entity["Address"], entity["Phone"], entity["Category"], entity["XLon"], entity["YLat"]);
+
+                    command.ExecuteNonQuery();
+
+
+                }
+            }
+
+            
+            //this.Select(connection, "DELETE * FROM [" + table + "$] WHERE Id='" + Id + "$'");
+        }
 
         public class XlsDriverException : Exception
         {
