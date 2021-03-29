@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Asa.DataStore
 {
@@ -112,7 +113,25 @@ namespace Asa.DataStore
             
             //this.Select(connection, "DELETE * FROM [" + table + "$] WHERE Id='" + Id + "$'");
         }
+        //A pesar de realizarlo con Interop lo mantuve dentro del XLSDriver para mantener el orden y que sea mas facil de mantener
+        public void DeleteData(string id)
+        {
+            Excel.Application excel = new Excel.Application();
+            Excel.Workbook workbook = excel.Workbooks.Open(AppDomain.CurrentDomain.BaseDirectory + @"\bin\Data\ds.xls");
+            Excel._Worksheet workbooksheet = workbook.Sheets[2];
+            Excel.Range Rango = workbooksheet.UsedRange;
 
+            foreach (Excel.Range s in Rango)
+            {
+                if (Convert.ToString(s.Value2) == id)
+                {
+                    s.EntireRow.Delete(Excel.XlDeleteShiftDirection.xlShiftUp);
+                }
+            }
+            workbook.Save();
+            workbook.Close(0);
+            excel.Quit();
+        }
         public class XlsDriverException : Exception
         {
             public XlsDriverException(string message) : base(message)

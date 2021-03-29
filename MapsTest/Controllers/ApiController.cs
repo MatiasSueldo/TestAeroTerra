@@ -72,15 +72,17 @@ namespace Asa.MapApi.Controllers
                     //Add funciona. Tuve que añadir una logica para corregir los nombres de las columnas on the fly(No se si se me permite cambiar el excel)
                     _AddPOI(entity);
                     Response.StatusCode = 200;
-                    //return Json(new { })
+                    return Json(new { statusCode = 200 });
                     
                     break;
                 case "PUT":
+                    //UPDATE funciona correctamente. lo que no hice fue implementar la interfaz por temas de tiempo, probè el endpoint a traves de Postman.
                     _UpdatePOI(entity);
+                    return Json(new { statusCode = 200 });
                     break;
                 case "DELETE":
-
-//                    _DeletePOI(entity);
+                    //Delete funciona correctamente tambien, no di a tiempo de realizar la interfaz. Se puede probar a traves del endpoint.
+                    _DeletePOI(id);
                     break;
             }
 
@@ -225,6 +227,20 @@ namespace Asa.MapApi.Controllers
 
 
 
+        }
+        private bool _DeletePOI(string Id)
+        {
+            var driver = new XlsDriver();
+            try
+            {
+                driver.DeleteData(Id);
+                return true;
+
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private List<Object> RunValidations(Dictionary<string, string> entity)
