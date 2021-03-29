@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "Map Demo";
+
+}
+
+
+
+<div id="map" style="
+        width: 100%;
+        height: 100%;
+        background-color: #a9a9a9
+">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModal" style="float: left; position: absolute; margin: 20px 100px; z-index: 1500;" onclick="">
+        Agregar POI
+    </button>
+
+    <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar POI</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="poiform">
+                        <table>
+                            <tr>
+                                <td width="25%">
+                                    Nombre:
+                                </td>
+                                <td>
+                                    <input type="text" name="name" id="name" placeholder="ej: AEROTERRA S.A." size="35" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Dirección:</td>
+                                <td><input type="text" name="address" id="address" placeholder="ej: Av. Eduardo Madero 1020, C1001 CABA" size="35" /></td>
+                            </tr>
+                            <tr>
+                                <td>Teléfono:</td>
+                                <td><input type="text" name="phone" id="phone" placeholder="ej: 54 9 11 5272 0900" /></td>
+                            </tr>
+                            <tr>
+                                <td>Categoría:</td>
+                                <td>
+
+                                    <select name="category" id="category">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Coordenadas :</td>
+                                <td><input type="text" name="coord" id="coord" placeholder="ej: X: -34.595986, Y: -58.3724715" size="30" /></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="Guardar">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script src="https://js.arcgis.com/3.31/"></script>
+    <script type="text/javascript" src="~/Scripts/Asa.MapApi.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#Guardar').click(function () {
+                var json = {
+                    "Id": 'd728520445d2377fa66d5ef90fde7713',
+                    "Name": document.querySelector('#name').value[0],
+                    "Address": document.querySelector('#address').value.toString(),
+                    "Phone": document.querySelector('#phone').value.toString(),
+                    "Category": document.querySelector('#category').value.charAt(0).toString(),
+                    "XLon": document.querySelector('#coord').value.split(",")[0].toString(),
+                    "YLat": document.querySelector('#coord').value.split(",")[1].toString()
+                };
+
+                $.post("../api/ValidateForm", { entity: json })
+                        .done(function (data) {
+                            alert("Data Loaded: " + data);
+                        });
+                
+                console.log(json);
+            });
+        });
+</script>
+}

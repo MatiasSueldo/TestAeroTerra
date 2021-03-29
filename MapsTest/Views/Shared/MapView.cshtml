@@ -1,0 +1,43 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no" />
+    <title>@ViewBag.Title </title>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.31/esri/css/esri.css">
+    @Styles.Render("~/Content/css")
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #777;
+            overflow: hidden;
+            font-family: "Trebuchet MS";
+        }
+
+        #map {
+            overflow: hidden;
+            padding: 0;
+        }
+    </style>
+
+</head>
+<body>
+    @RenderBody()
+</body>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
+
+</html>

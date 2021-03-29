@@ -1,0 +1,205 @@
+{
+	"info": {
+		"_postman_id": "a30abccd-d601-451b-b555-1bb52ab6e42e",
+		"name": "MapApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POIs",
+			"item": [
+				{
+					"name": "List POIs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:26000/api/pois",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "26000",
+							"path": [
+								"api",
+								"pois"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add POIs",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"entity\":{\r\n\t    \"Id\": \"d728520445d2377fa66d5ef90fde7713\",\r\n\t    \"Name\": \"Aeroterra S.A. (bis)\",\r\n\t    \"Address\": \"Av. Eduardo Madero 1020, C1001 CABA\",\r\n\t    \"Phone\": \"54 9 11 5272 0900\",\r\n\t    \"Category\": \"C\",\r\n\t    \"XLon\": -34.594986,\r\n\t    \"YLat\": -58.3734715\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:26000/api/pois",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "26000",
+							"path": [
+								"api",
+								"pois"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update POIs",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"entity\":{\r\n\t    \"Id\": \"d728520445d2377fa66d5ef90fde7713\",\r\n\t    \"Name\": \"Aeroterra S.A. (bis)\",\r\n\t    \"Address\": \"Av. Eduardo Madero 1020, C1001 CABA\",\r\n\t    \"Phone\": \"54 9 11 5272 0900\",\r\n\t    \"Category\": \"C\",\r\n\t    \"XLon\": -34.594986,\r\n\t    \"YLat\": -58.3734715\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:26000/api/pois/d728520445d2377fa66d5ef90fde7713",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "26000",
+							"path": [
+								"api",
+								"pois",
+								"d728520445d2377fa66d5ef90fde7713"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete POIs",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:26000/api/pois/d728520445d2377fa66d5ef90fde7713",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "26000",
+							"path": [
+								"api",
+								"pois",
+								"d728520445d2377fa66d5ef90fde7713"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "List Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:26000/api/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "26000",
+							"path": [
+								"api",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Form",
+			"item": [
+				{
+					"name": "Validate Form",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"entity\":{\r\n\t    \"Id\": \"d728520445d2377fa66d5ef90fde7713\",\r\n\t    \"Name\": \"Aeroterra S.A. (bis)\",\r\n\t    \"Address\": \"Av. Eduardo Madero 1020, C1001 CABA\",\r\n\t    \"Phone\": \"54 9 11 5272 0900\",\r\n\t    \"Category\": \"C\",\r\n\t    \"XLon\": -34.594986,\r\n\t    \"YLat\": -58.3734715\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:26000/api/ValidateForm",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "26000",
+							"path": [
+								"api",
+								"ValidateForm"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
